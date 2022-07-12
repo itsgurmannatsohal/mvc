@@ -33,7 +33,9 @@ class Login {
 
     public function post() 
     {
-        $enrolmentNumber = $_POST["enrolmentNumber"];
+        $_POST = json_decode(file_get_contents("php://input"), true);
+        session_start();
+        $enrolmentNumber = $_SESSION["enrolmentNumber"];
         $password = $_POST["password"];
         $rows = \Model\Post::login($enrolmentNumber, $password);
         if ($rows) {
@@ -50,6 +52,7 @@ class Login {
 
 class Dashboard {
     public function get() {
+        \Utils\Auth::userAuth();
         echo \View\Loader::make()->render("templates/dashboard.twig", array(
             "books" => \Model\Post::get_books(),
         ));
@@ -58,26 +61,52 @@ class Dashboard {
 
 class showList {
     public function get() {
+        \Utils\Auth::userAuth();
         echo \View\Loader::make()->render("templates/checkoutList.twig", array(
             "list" => \Model\Post::get_list($enrolmentNumber),
         ));
     }
 }
 
-// class requestIn {
-//     public function post() 
-//     {
-//         $enrolmentNumber = $_POST["enrolmentNumber"];
-//         $bookID = $_POST["bookID"];
-//         $rows = \Model\Post::requestIn($enrolmentNumber, $bookID);
-//         if ($rows) {
-//             session_start();
-//             $_SESSION["enrolmentNumber"] = $enrolmentNumber;
-//             echo \View\Loader::make()->render("templates/dashboard.twig", array(
-//             "books" => \Model\Post::request_in(),
-//         ));
-//         } else {
-//             echo "enrolmentNumber or password is wrong";   
-//         }
-//     }        
-// }
+class in {
+    public function post() {
+        \Utils\Auth::userAuth();
+        $_POST = json_decode(file_get_contents("php://input"), true);
+        session_start();
+        $enrolmentNumber = $_SESSION["enrolmentNumber"];
+        $bookID = $_POST["bookID"];
+        $rows = \Model\Post::request_in($enrolmentNumber, $bookID);
+        if ($rows) {
+            echo \View\Loader::make()->render("templates/checkoutList.twig", array(
+            "list" => \Model\Post::get_list($enrolmentNumber),
+        ));
+        } 
+    }        
+}
+
+class out {
+    public function post() {
+        \Utils\Auth::userAuth();
+        $_POST = json_decode(file_get_contents("php://input"), true);
+        session_start();
+        $enrolmentNumber = $_SESSION["enrolmentNumber"];
+        $bookID = $_POST["bookID"];
+        $rows = \Model\Post::request_out($enrolmentNumber, $bookID);
+        if ($rows) {
+            echo \View\Loader::make()->render("templates/checkoutList.twig", array(
+            "list" => \Model\Post::get_list($enrolmentNumber),
+        ));
+        } 
+    }        
+}
+
+class logout {
+    public function get()
+    {
+        session_start();
+        session_unset();
+        session_destroy();
+        header("Location: /");
+        die();
+    }
+}

@@ -1,18 +1,11 @@
 {
-    "name": "patronus/mvc",
+    "name": "vrongmeal/mvc-lecture",
+    "description": "Basic application with MVC architecture",
     "require": {
-        "twig/twig": "^3.4",
-        "torophp/torophp": "dev-master"
+        "torophp/torophp": "dev-master",
+        "twig/twig": "^3.0"
     },
     "autoload": {
-        "psr-4": {
-            "Patronus\\Mvc\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Gurmannat Sohal",
-            "email": "iamgurmannatsohal@gmail.com"
-        }
-    ]
+        "classmap": ["app"]
+    }
 }
