@@ -1,6 +1,6 @@
 <?php
 
-namespace Controller;
+namespace Controller1;
 
 class AdminLogin {
     public function get()

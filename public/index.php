@@ -3,12 +3,12 @@
 require __DIR__."/../vendor/autoload.php";
 
 Toro::serve(array(
-    "/admin" => "\Controller\AdminLogin",
-    "/admin/books" => "\Controller\Books",
-    "/admin/books/add" => "\Controller\AddBooks",
+    "/admin" => "\Controller1\AdminLogin",
+    "/admin/books" => "\Controller1\Books",
+    "/admin/books/add" => "\Controller1\AddBooks",
     //"/admin/books/plus" => "\Controller\plusBooks",
     //"/admin/books/minus" => "\Controller\minusBooks",
-    "/admin/requests" => "\Controller\Requests",
+    "/admin/requests" => "\Controller1\Requests",
     //"/admin/requests/accept" => "\Controller\acceptRequests",
     //"/admin/requests/deny" => "\Controller\denyRequests",
     
