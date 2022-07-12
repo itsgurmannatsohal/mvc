@@ -2,34 +2,82 @@
 
 namespace Controller;
 
-class viewLogin {
+class Signup {
+    public function get()
+    {
+        echo \View\Loader::make()->render("signup.twig");
+    }
+
+        public function post() {
+        $enrolmentNumber = $_POST["enrolmentNumber"];
+        $password1 = $_POST["password1"];
+        $password2 = $_POST["password2"];
+        $rows = \Model\Post::signup($enrolmentNumber, $password1, $password2);
+        if ($rows) {
+            session_start();
+            $_SESSION["enrolmentNumber"] = $enrolmentNumber;
+            echo \View\Loader::make()->render("templates/dashboard.twig", array(
+            "books" => \Model\Post::get_books(),
+        ));
+        } else {
+            echo "enrolmentNumber or password is wrong";   
+        }
+    }        
+}
+
+class Login {
     public function get()
     {
         echo \View\Loader::make()->render("login.twig");
     }
+
+    public function post() 
+    {
+        $enrolmentNumber = $_POST["enrolmentNumber"];
+        $password = $_POST["password"];
+        $rows = \Model\Post::login($enrolmentNumber, $password);
+        if ($rows) {
+            session_start();
+            $_SESSION["enrolmentNumber"] = $enrolmentNumber;
+            echo \View\Loader::make()->render("templates/dashboard.twig", array(
+            "books" => \Model\Post::get_books(),
+        ));
+        } else {
+            echo "enrolmentNumber or password is wrong";   
+        }
+    }        
 }
 
-class viewDashboard {
+class Dashboard {
     public function get() {
         echo \View\Loader::make()->render("templates/dashboard.twig", array(
             "books" => \Model\Post::get_books(),
         ));
     }
-
-    // public function post() {
-    //     $caption = $_POST["caption"];
-    //     \Model\Post::create($caption);
-    //     echo \View\Loader::make()->render("templates/home.twig", array(
-    //         "posts" => \Model\Post::get_all(),
-    //         "posted" => true,
-    //     ));
-    // }
 }
 
-class viewList {
+class showList {
     public function get() {
         echo \View\Loader::make()->render("templates/checkoutList.twig", array(
-            "list" => \Model\Post::list($enrolmentNumber),
+            "list" => \Model\Post::get_list($enrolmentNumber),
         ));
     }
 }
+
+// class requestIn {
+//     public function post() 
+//     {
+//         $enrolmentNumber = $_POST["enrolmentNumber"];
+//         $bookID = $_POST["bookID"];
+//         $rows = \Model\Post::requestIn($enrolmentNumber, $bookID);
+//         if ($rows) {
+//             session_start();
+//             $_SESSION["enrolmentNumber"] = $enrolmentNumber;
+//             echo \View\Loader::make()->render("templates/dashboard.twig", array(
+//             "books" => \Model\Post::request_in(),
+//         ));
+//         } else {
+//             echo "enrolmentNumber or password is wrong";   
+//         }
+//     }        
+// }

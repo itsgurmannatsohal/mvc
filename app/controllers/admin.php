@@ -2,7 +2,7 @@
 
 namespace Controller;
 
-class viewAdminLogin {
+class AdminLogin {
     public function get()
     {
         echo \View\Loader::make()->render("adminLogin.twig");
@@ -11,25 +11,21 @@ class viewAdminLogin {
     public function post() {
         $username = $_POST["username"];
         $password = $_POST["password"];
-        if(/*no admin in db*/){
-            echo "Admin doesn't exist"
-        };
-        else {
-            if(/*password matches*/){
-            //make session
-            //execute func adminLogin
+        $rows = \Model\Post::adminLogin($username, $password);
+        if ($rows) {
+            session_start();
+            $_SESSION["username"] = $username;
             echo \View\Loader::make()->render("templates/adminBooks.twig", array(
             "books" => \Model\Post::get_books(),
         ));
-            }
-            else {
-                echo "Incorrect username or password"
-            }
-        }        
-    }
+        } else {
+            echo "username or password is wrong";   
+        }
+    }        
 }
 
-class viewBooks {
+
+class Books {
     public function get() {
         echo \View\Loader::make()->render("templates/adminBooks.twig", array(
             "books" => \Model\Post::get_books(),
@@ -37,7 +33,7 @@ class viewBooks {
     }
 }
 
-class viewRequests {
+class Requests {
     public function get() {
         echo \View\Loader::make()->render("templates/adminRequests.twig", array(
             "requests" => \Model\Post::get_requests(),

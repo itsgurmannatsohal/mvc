@@ -3,25 +3,21 @@
 require __DIR__."/../vendor/autoload.php";
 
 Toro::serve(array(
-    "/admin" => "\Controller\viewAdminLogin",
-    //"/admin/post" => "\Controller\postAdminLogin",
-    "/admin/books" => "\Controller\viewBooks",
-    "/admin/books/add" => "\Controller\viewAddBooks",
-    //"/admin/books/add/post" => "\Controller\postAddBooks",
+    "/admin" => "\Controller\AdminLogin",
+    "/admin/books" => "\Controller\Books",
+    "/admin/books/add" => "\Controller\AddBooks",
     //"/admin/books/plus" => "\Controller\plusBooks",
     //"/admin/books/minus" => "\Controller\minusBooks",
-    "/admin/requests" => "\Controller\viewRequests",
+    "/admin/requests" => "\Controller\Requests",
     //"/admin/requests/accept" => "\Controller\acceptRequests",
     //"/admin/requests/deny" => "\Controller\denyRequests",
     
-    "/signin" => "\Controller\viewLogin",
-    //postLogin
-    "/signin/signup" => "\Controller\viewSignup",
-    //postSignup
+    "/signin" => "\Controller\Login",
+    "/signin/signup" => "\Controller\Signup",
     "/signin/logout" => "\Controller\logout",
 
-    "/dashboard" => "\Controller\viewDashboard",
-    "/dashboard/list" => "\Controller\viewList",
+    "/dashboard" => "\Controller\Dashboard",
+    "/dashboard/list" => "\Controller\showList",
     //"/dashboard/requestOut" => "\Controller\requestOut",
     //"/dashboard/requestIn" => "\Controller\requestIn",
 ));

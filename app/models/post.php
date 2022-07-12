@@ -6,7 +6,7 @@ use Bcrypt\Bcrypt;
 
 class Post {    
 
-     public static function adminLogin($username, $pass)
+     public static function adminLogin($username, $password)
     {
         $bcrypt = new Bcrypt();
         $db = \DB::get_instance();
@@ -14,16 +14,41 @@ class Post {
         $stmt->execute([$username]);
         $rows = $stmt->fetchAll();
         if ($rows) {
-            if ($bcrypt->verify($pass, $rows[0]["pass"])) {
-                session_start();
-                $_SESSION["username"] = $username;
-                //$_SESSION["role"] = $rows[0]["role"];
-                return true;
+            if ($bcrypt->verify($password, $rows[0]["password"])) {
+                return $rows;
             }
         }
         return false;
     }
 
+      public static function login($enrolmentNumber, $password)
+    {
+        $bcrypt = new Bcrypt();
+        $db = \DB::get_instance();
+        $stmt = $db->prepare("SELECT * FROM users WHERE enrolmentNumber = ?");
+        $stmt->execute([$username]);
+        $rows = $stmt->fetchAll();
+        if ($rows) {
+            if ($bcrypt->verify($password, $rows[0]["password"])) {
+            }
+        }
+        return false;
+    }
+
+       public static function signup($enrolmentNumber, $password1, $password2)
+    {
+        $bcrypt = new Bcrypt();
+        $db = \DB::get_instance();
+        $stmt = $db->prepare("INSERT INTO users (enrolmentNumber, password) VALUES (?, ?)");
+        $stmt->execute([$enrolmentNumber, $password]);
+        $rows = $stmt->fetchAll();
+        if ($rows) {
+            if ($bcrypt->verify($password, $rows[0]["password"])) {
+            }
+        }
+        return false;
+    }
+    
     public static function get_books() {
         $db = \DB::get_instance();
         $stmt = $db->prepare("SELECT * FROM books");
@@ -40,19 +65,12 @@ class Post {
         return $rows;
     }
     
-    public static function list($enrolmentNumber) {
+    public static function get_list($enrolmentNumber) {
         $db = \DB::get_instance();
         $stmt = $db->prepare("SELECT * FROM books WHERE enrolmentNumber = ?");
         $stmt->execute([$enrolmentNumber]);
         $row = $stmt->fetch();
         return $row;
     }
-
-    // public static function create($caption) {
-    //     $db = \DB::get_instance();
-    //     $stmt = $db->prepare("INSERT INTO posts (caption) VALUES (?)");
-    //     $stmt->execute([$caption]);
-    // }
-
 
 }
