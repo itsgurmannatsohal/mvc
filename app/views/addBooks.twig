@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../../public/stylesheets/style.css" />
+  </head>
+  <body>
+    <div>
+      <h2>Add a book</h2>
+      <form action="/admin/books/add" method="post">
+        Book name: <input type="text" name="bookName" required /> <br />
+        Author: <input type="text" name="authorName" required /> <br />
+        No of copies: <input type="number" name="copies" required /><br />
+        <input type="submit" value="Add" id="add_btn" />
+      </form>
+    </div>
+  </body>
+</html>

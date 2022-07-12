@@ -1,0 +1,49 @@
+{% extends "templates/base.twig" %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<div>
+
+    <button onclick="window.location='/admin/books/add'">Add books</button>
+    <button onclick="window.location='/admin/requests'">Resolve requests</button>
+
+    <br /><br />
+
+    <h2>List of books</h2>
+
+    <table border="2">
+
+    <tr>
+        <th style="padding: 5px">ID</th>
+        <th style="padding: 5px">Books</th>
+        <th style="padding: 5px">Author</th>
+        <th style="padding: 5px">Total copies</th>
+        <th style="padding: 5px">Copies available</th>
+        <th style="padding: 5px"></th>
+        <th style="padding: 5px"></th>
+    </tr>
+
+    {% for book in books %}
+  
+        <tr>
+            <td>{{book.id}}</td>
+            <td>{{book.name}}</td>
+            <td>{{book.author}}</td>
+            <td>{{book.copies}}</td>
+            <td>{{book.available}}</td>
+
+            <td><button onclick="plus({{book.id}}, {{book.copies}}, {{book.available}})">+</button></td>
+            <td><button onclick="minus({{book.id}}, {{book.copies}}, {{book.available}})">-</button></td>
+        </tr>
+  
+    {% endfor %}
+
+    </table>
+
+    <br />
+    
+    <button class="logout-btn" onclick="window.location='/signin/logout'">Logout</button>
+
+</div>
+{% endblock %}

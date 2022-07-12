@@ -1,0 +1,43 @@
+{% extends "templates/base.twig" %}
+
+{% block title %}Requests{% endblock %}
+
+{% block body %}
+<div>
+    <h2>Resolve requests</h2>
+
+    <table border="2">
+
+    <tr>
+        <th style="padding: 5px">ID</th>
+        <th style="padding: 5px">Books</th>
+        <th style="padding: 5px">Author</th>
+        <th style="padding: 5px">Enrolment Number</th>
+        <th style="padding: 5px">Request type</th>
+        <th style="padding: 5px">Copies available</th>
+        <th style="padding: 5px"></th>
+        <th style="padding: 5px"></th>
+    </tr>
+
+    {% for request in requests %}
+    
+    <tr>
+        <td>{{request.id}}</td>
+        <td>{{request.name}}</td>
+        <td>{{request.author}}</td>
+        <td>{{request.enrolmentNumber}}</td>
+        <td>{{request.req}}</td>
+        <td>{{request.available}}</td>
+        <td><button 
+            id="accept-btn" onclick="acceptId({{request.id}}, {{request.type}}, {{request.enrolmentNumber}}, {{request.available}})">
+            Accept</button></td>
+        <td><button 
+            id="deny-btn" onclick="denyId({{request.id}}, {{request.status}}, {{request.enrolmentNumber}})">
+            Deny</button></td>
+    </tr>
+    
+    {% endfor %}
+
+    </table>
+</div>
+{% endblock %}

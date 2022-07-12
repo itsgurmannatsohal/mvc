@@ -1,0 +1,31 @@
+{% extends "templates/base.twig" %}
+
+{% block title %}List{% endblock %}
+
+{% block body %}
+
+<div>
+    <h2>Your books</h2>
+    <table border="2">
+    <tr>
+        <th style="padding: 5px">Books</th>
+        <th style="padding: 5px">Author</th>
+        <th style="padding: 5px"></th>
+    </tr>
+
+    {% for item in list %}
+  
+        <tr>
+        <td>{{item.name}}</td>
+        <td>{{item.author}}</td>
+        <td><button
+            id="checkin-btn" onclick="checkinId({{item.id}})"
+            >Return</button></td>
+        </tr>
+  
+    {% endfor %}
+
+    </table>
+</div>
+    
+{% endblock %}

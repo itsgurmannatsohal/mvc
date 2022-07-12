@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="../../public/stylesheets/style.css" />
+  </head>
+  <body>
+    <div>
+      <h3>Sign Up</h3>
+      <form action="/signin/signup" method="post">
+        Enrolment number: <input type="number" name="enrolnum" required />
+        <br />
+        Password (min 8 characters):
+        <input type="password" name="pass1" minlength="8" required /> <br />
+        Confirm password: <input type="password" name="pass2" required /> <br />
+        <input type="submit" value="Sign Up" />
+      </form>
+    </div>
+  </body>
+</html>

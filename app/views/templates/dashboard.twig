@@ -1,0 +1,38 @@
+{% extends "templates/base.twig" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+<div>
+    <button onclick="window.location='/dashboard/list';">Your checkouts</button>
+    <br /><br />
+    <h2>Available books</h2>
+
+    <table border="2">
+    <tr>
+
+        <th style="padding: 5px">Books</th>
+        <th style="padding: 5px">Author</th>
+        <th style="padding: 5px">Copies available</th>
+        <th style="padding: 5px"></th>
+    </tr>
+
+    {% for book in books %}
+  
+        <tr>
+        <td>{{book.name}}</td>
+        <td>{{book.author}}</td>
+        <td>{{book.available}}</td>
+        <td><button
+            id="checkout-btn"
+            onclick="checkoutId({{book.id}}, {{book.available}})">Check-out</button></td>
+        </tr>
+  
+    {% endfor %}
+
+      </table>
+      <br />
+      <button class="logout-btn" onclick="window.location='/signin/logout'">Logout</button>
+    </div>
+    
+{% endblock %}
