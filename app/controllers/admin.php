@@ -57,14 +57,14 @@ class AddBooks {
         $rows = \Model\Post::add_books($bookName, $authorName, $copies);
         if ($rows) {
             header("Location: /admin/books");
-        } 
+        }
     } 
 }
 
 class accept {
     public function post() {
         \Utils\Auth::adminAuth();
-        //$_POST = json_decode(file_get_contents("php://input"), true);
+        $_POST = json_decode(file_get_contents("php://input"), true);
         $enrolmentNumber = $_POST["enrolmentNumber"];
         $available = $_POST["available"];
         $bookID = $_POST["bookID"];
@@ -80,9 +80,8 @@ class accept {
 class deny {
     public function post() {
         \Utils\Auth::adminAuth();
-        //$_POST = json_decode(file_get_contents("php://input"), true);
-        session_start();
-        $enrolmentNumber = $_SESSION["enrolmentNumber"];
+        $_POST = json_decode(file_get_contents("php://input"), true);
+        $enrolmentNumber = $_POST["enrolmentNumber"];
         $bookID = $_POST["bookID"];
         $rows = \Model\Post::deny($enrolmentNumber, $bookID);
         if ($rows) {
@@ -96,31 +95,31 @@ class deny {
 class plusBooks {
     public function post() {
         \Utils\Auth::adminAuth();
-        //$_POST = json_decode(file_get_contents("php://input"), true);
+        $_POST = json_decode(file_get_contents("php://input"), true);
         session_start();
-        $enrolmentNumber = $_SESSION["enrolmentNumber"];
+        $copies = $_POST["copies"];
+        $available = $_POST["available"];
         $bookID = $_POST["bookID"];
-        $rows = \Model\Post::plus_books($enrolmentNumber, $bookID);
-        if ($rows) {
-            echo \View\Loader::make()->render("templates/adminBooks.twig", array(
-            "books" => \Model\Post::get_books(),
-        ));
-        } 
+        $rows = \Model\Post::plus_books($copies, $bookID, $available);
+        if (true) {
+            header("Location: /admin/books");
+        } else {
+            header("Location: https://www.google.com/ ");
+        }
     }        
 }
 
 class minusBooks {
     public function post() {
         \Utils\Auth::adminAuth();
-        //$_POST = json_decode(file_get_contents("php://input"), true);
+        $_POST = json_decode(file_get_contents("php://input"), true);
         session_start();
-        $enrolmentNumber = $_SESSION["enrolmentNumber"];
+        $copies = $_POST["copies"];
+        $available = $_POST["available"];
         $bookID = $_POST["bookID"];
-        $rows = \Model\Post::minus_books($enrolmentNumber, $bookID);
+        $rows = \Model\Post::minus_books($copies, $bookID, $available);
         if ($rows) {
-            echo \View\Loader::make()->render("templates/adminBooks.twig", array(
-            "books" => \Model\Post::get_books(),
-        ));
+            header("Location: /admin/books");
         } 
     }        
 }

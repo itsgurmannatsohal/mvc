@@ -34,16 +34,13 @@ class Login {
     public function post() 
     {
         //$_POST = json_decode(file_get_contents("php://input"), true);
-        session_start();
         $enrolmentNumber = $_POST["enrolmentNumber"];
         $password = $_POST["password"];
         $rows = \Model\Post::login($enrolmentNumber, $password);
         if (true) {
             session_start();
             $_SESSION["enrolmentNumber"] = $enrolmentNumber;
-            echo \View\Loader::make()->render("templates/dashboard.twig", array(
-            "books" => \Model\Post::get_books(),
-        ));
+            header("Location: /dashboard");
         } else {
             echo "Enrolment number or password is wrong";   
         }
@@ -93,11 +90,10 @@ class out {
         session_start();
         $enrolmentNumber = $_SESSION["enrolmentNumber"];
         $bookID = $_POST["bookID"];
+        $available = $_POST["available"];
         $rows = \Model\Post::request_out($enrolmentNumber, $bookID);
         if ($rows) {
-            echo \View\Loader::make()->render("templates/checkoutList.twig", array(
-            "list" => \Model\Post::get_list($enrolmentNumber),
-        ));
+            header("Location: /dashboard/list");
         } 
     }        
 }
