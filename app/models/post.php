@@ -10,13 +10,11 @@ class Post {
     {
         $bcrypt = new Bcrypt();
         $db = \DB::get_instance();
-        $stmt = $db->prepare("SELECT * FROM admins WHERE username = ?");
-        $stmt->execute([$username]);
+        $stmt = $db->prepare("SELECT * FROM admins WHERE username = ? AND password = ?");
+        $stmt->execute([$username, $password]);
         $rows = $stmt->fetchAll();
         if ($rows) {
-            if ($bcrypt->verify($password, $rows[0]["password"])) {
-                return $rows;
-            }
+            return $rows;
         }
         return false;
     }
@@ -26,27 +24,38 @@ class Post {
         $bcrypt = new Bcrypt();
         $db = \DB::get_instance();
         $stmt = $db->prepare("SELECT * FROM users WHERE enrolmentNumber = ?");
-        $stmt->execute([$username]);
+        $stmt->execute([$enrolmentNumber]);
         $rows = $stmt->fetchAll();
         if ($rows) {
             if ($bcrypt->verify($password, $rows[0]["password"])) {
+                return true;
             }
-        }
+        } else {
         return false;
+        }
     }
 
        public static function signup($enrolmentNumber, $password1, $password2)
     {
-        $bcrypt = new Bcrypt();
-        $db = \DB::get_instance();
-        $stmt = $db->prepare("INSERT INTO users (enrolmentNumber, password) VALUES (?, ?)");
-        $stmt->execute([$enrolmentNumber, $password]);
-        $rows = $stmt->fetchAll();
-        if ($rows) {
-            if ($bcrypt->verify($password, $rows[0]["password"])) {
+        if ($password1 == $password2) {
+            $bcrypt = new Bcrypt();
+            $bcrypt_version = '2a';
+            $hash = $bcrypt->encrypt($password1, $bcrypt_version);
+            $db = \DB::get_instance();
+            $stmt = $db->prepare("SELECT * FROM users WHERE enrolmentNumber = ?");
+            $stmt->execute([$username]);
+            $row = $stmt->fetchAll();
+            if ($row) {
+                echo "User already exists";
+                return false;
+            } else {
+                $stmt = $db->prepare("INSERT INTO users (enrolmentNumber, password) VALUES (?, ?)");
+                $stmt->execute([$enrolmentNumber, $hash]);
+                return true;
             }
+        } else {
+            echo "Passwords don't match";
         }
-        return false;
     }
     
     public static function get_books() {

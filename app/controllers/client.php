@@ -33,19 +33,19 @@ class Login {
 
     public function post() 
     {
-        $_POST = json_decode(file_get_contents("php://input"), true);
+        //$_POST = json_decode(file_get_contents("php://input"), true);
         session_start();
-        $enrolmentNumber = $_SESSION["enrolmentNumber"];
+        $enrolmentNumber = $_POST["enrolmentNumber"];
         $password = $_POST["password"];
         $rows = \Model\Post::login($enrolmentNumber, $password);
-        if ($rows) {
+        if (true) {
             session_start();
             $_SESSION["enrolmentNumber"] = $enrolmentNumber;
             echo \View\Loader::make()->render("templates/dashboard.twig", array(
             "books" => \Model\Post::get_books(),
         ));
         } else {
-            echo "enrolmentNumber or password is wrong";   
+            echo "Enrolment number or password is wrong";   
         }
     }        
 }
@@ -61,6 +61,8 @@ class Dashboard {
 
 class showList {
     public function get() {
+        session_start();
+        $enrolmentNumber = $_GET["enrolmentNumber"];
         \Utils\Auth::userAuth();
         echo \View\Loader::make()->render("templates/checkoutList.twig", array(
             "list" => \Model\Post::get_list($enrolmentNumber),
@@ -106,7 +108,7 @@ class logout {
         session_start();
         session_unset();
         session_destroy();
-        header("Location: /");
+        header("Location: /signin");
         die();
     }
 }

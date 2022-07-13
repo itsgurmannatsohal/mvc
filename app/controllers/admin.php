@@ -15,9 +15,7 @@ class AdminLogin {
         if ($rows) {
             session_start();
             $_SESSION["username"] = $username;
-            echo \View\Loader::make()->render("templates/adminBooks.twig", array(
-            "books" => \Model\Post::get_books(),
-        ));
+            header("Location: /admin/books");
         } else {
             echo "username or password is wrong";   
         }
@@ -51,16 +49,14 @@ class AddBooks {
 
     public function post() {
         \Utils\Auth::adminAuth();
-        $_POST = json_decode(file_get_contents("php://input"), true);
+        //$_POST = json_decode(file_get_contents("php://input"), true);
         $bookName = $_POST["bookName"];
         $authorName = $_POST["authorName"];
         $copies = $_POST["copies"];
 
         $rows = \Model\Post::add_books($bookName, $authorName, $copies);
         if ($rows) {
-            echo \View\Loader::make()->render("templates/adminBooks.twig", array(
-            "books" => \Model\Post::get_books(),
-        ));
+            header("Location: /admin/books");
         } 
     } 
 }
@@ -68,7 +64,7 @@ class AddBooks {
 class accept {
     public function post() {
         \Utils\Auth::adminAuth();
-        $_POST = json_decode(file_get_contents("php://input"), true);
+        //$_POST = json_decode(file_get_contents("php://input"), true);
         $enrolmentNumber = $_POST["enrolmentNumber"];
         $available = $_POST["available"];
         $bookID = $_POST["bookID"];
@@ -76,9 +72,7 @@ class accept {
 
         $rows = \Model\Post::accept($available, $requestType, $enrolmentNumber, $bookID);
         if ($rows) {
-            echo \View\Loader::make()->render("templates/adminRequests.twig", array(
-            "requests" => \Model\Post::get_requests(),
-        ));
+            header("Location: /admin/requests");
         } 
     }        
 }
@@ -86,7 +80,7 @@ class accept {
 class deny {
     public function post() {
         \Utils\Auth::adminAuth();
-        $_POST = json_decode(file_get_contents("php://input"), true);
+        //$_POST = json_decode(file_get_contents("php://input"), true);
         session_start();
         $enrolmentNumber = $_SESSION["enrolmentNumber"];
         $bookID = $_POST["bookID"];
@@ -102,7 +96,7 @@ class deny {
 class plusBooks {
     public function post() {
         \Utils\Auth::adminAuth();
-        $_POST = json_decode(file_get_contents("php://input"), true);
+        //$_POST = json_decode(file_get_contents("php://input"), true);
         session_start();
         $enrolmentNumber = $_SESSION["enrolmentNumber"];
         $bookID = $_POST["bookID"];
@@ -118,7 +112,7 @@ class plusBooks {
 class minusBooks {
     public function post() {
         \Utils\Auth::adminAuth();
-        $_POST = json_decode(file_get_contents("php://input"), true);
+        //$_POST = json_decode(file_get_contents("php://input"), true);
         session_start();
         $enrolmentNumber = $_SESSION["enrolmentNumber"];
         $bookID = $_POST["bookID"];

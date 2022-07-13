@@ -3,7 +3,8 @@
     "description": "Basic application with MVC architecture",
     "require": {
         "torophp/torophp": "dev-master",
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.0",
+        "polarising/bcrypt": "^1.0"
     },
     "autoload": {
         "classmap": ["app"]
