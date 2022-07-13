@@ -89,7 +89,7 @@ class Post {
         $stmt = $db->prepare("SELECT * FROM requests WHERE Id = ? AND enrolmentNumber = ? AND status = 2 AND type = 7;");
         $stmt->execute([$bookID, $enrolmentNumber]);
         $row = $stmt->fetchAll();
-        if ($rows) {
+        if ($row) {
             echo "Already requested";
         } else {
             $db = \DB::get_instance();
@@ -118,46 +118,31 @@ class Post {
         }
     }
 
-        public static function accept($enrolmentNumber, $bookID, $available, $requestType) {
+        public static function accept($available, $requestType, $enrolmentNumber, $bookID) {
             $y = $available + 1;
             $x = $available - 1;
-        // $db = \DB::get_instance();
-        // $stmt = $db->prepare("SELECT * FROM requests;");
-        // $stmt->execute();
-        // $row = $stmt->fetchAll();
 
-        if ($requestType == 7) {
-            return true;
-        } else {
-            return false;
-        }
+         if ($requestType == 7) {
 
-        if (true) {
-            $stmt = $db->prepare("UPDATE books SET available = ? WHERE id = ? ;");
-            $stmt->execute([$y, $bookID]);
-            $row = $stmt->fetchAll();
-                if ($row) {
-                    $stmt = $db->prepare("UPDATE requests SET status = 1 WHERE id = ? AND enrolmentNumber = ? AND type = ?;");
-                    $stmt->execute([$bookID, $enrolmentNumber, $requestType]);
-                    $row = $stmt->fetchAll();
-                        if ($row){
-                            $stmt = $db->prepare("UPDATE requests SET type = 7 WHERE status = 1 AND enrolmentNumber= ? AND type = 9;");
-                            $stmt->execute($enrolmentNumber);
-                            $row = $stmt->fetchAll();
-                        }
-                }
-        } else {
             $db = \DB::get_instance();
-            $stmt = $db->prepare("UPDATE books SET enrolmentNumber= ?, available= ? WHERE id = ?;");
-            $stmt->execute([$enrolmentNumber, $x, $bookID]);
-            $row = $stmt->fetchAll();
-            return $row;
-                if ($row) {
-                    $stmt = $db->prepare("UPDATE requests SET status = 1 WHERE id = ? AND enrolmentNumber = ? AND type= ?;");
-                    $stmt->execute($bookID, $enrolmentNumber, $requestType);
-                    $rowx = $stmt->fetchAll();
-                    return $rowx;
-                }
+            $stmt1 = $db->prepare("UPDATE books SET available = ? WHERE id = ? ;");
+            $stmt1 ->execute([$y, $bookID]);
+            $stmt2 = $db->prepare("UPDATE requests SET status = 1 WHERE id = ? AND enrolmentNumber = ? AND type = ?;");
+            $stmt2 ->execute([$bookID, $enrolmentNumber, $requestType]);
+            $stmt3 = $db->prepare("UPDATE requests SET type = 7 WHERE status = 1 AND enrolmentNumber= ? AND type = 9;");
+            $stmt3 ->execute([$enrolmentNumber]);
+            return true;
+
+        } else {
+
+            $db = \DB::get_instance();
+            $stmt1 = $db->prepare("UPDATE books SET enrolmentNumber= ?, available= ? WHERE id = ?;");
+            $stmt1 ->execute([$enrolmentNumber, $x, $bookID]);
+            $stmt2 = $db->prepare("UPDATE requests SET status = 1 WHERE id = ? AND enrolmentNumber = ? AND type= ?;");
+            $stmt2 ->execute([$bookID, $enrolmentNumber, $requestType]);
+            
+            return true;
+
         }
     }
 
@@ -173,27 +158,25 @@ class Post {
         $db = \DB::get_instance();
         $stmt = $db->prepare("INSERT INTO books (name, author, copies, available) VALUES (?, ?, ?, ?);");
         $stmt->execute([$bookName, $authorName, $copies, $copies]);
-        //$stmt->fetchAll();
         return true;
     }
 
-     public static function plus_books($bookID, $copies, $available) {
+     public static function plus_books($copies, $bookID, $available) {
             $copies += 1;
             $available += 1;
         $db = \DB::get_instance();
         $stmt = $db->prepare("UPDATE books SET copies = ?, available = ? WHERE id = ?;");
         $stmt->execute([$copies, $available, $bookID]);
-        //$row = $stmt->fetchAll();
         return true;
     }
 
-     public static function minus_books($bookID, $copies, $available) {
-            $x = $copies - 1;
-            $y = $available - 1;
+     public static function minus_books($copies, $bookID, $available) {
+            $copies -= 1;
+            $available -= 1;
         $db = \DB::get_instance();
         if ($available > 0) {
         $stmt = $db->prepare("UPDATE books SET copies = ?, available = ? WHERE id = ?;");
-        $stmt->execute([$x, $y, $bookID]);
+        $stmt->execute([$copies, $available, $bookID]);
         $row = $stmt->fetchAll();
         } else {
             echo "No books available to subtract";

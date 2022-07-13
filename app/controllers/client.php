@@ -7,7 +7,6 @@ class Signup {
     {
         echo \View\Loader::make()->render("signup.twig");
     }
-
         public function post() {
         $enrolmentNumber = $_POST["enrolmentNumber"];
         $password1 = $_POST["password1"];
@@ -19,9 +18,7 @@ class Signup {
             echo \View\Loader::make()->render("templates/dashboard.twig", array(
             "books" => \Model\Post::get_books(),
         ));
-        } else {
-            echo "enrolmentNumber or password is wrong";   
-        }
+        } 
     }        
 }
 
@@ -33,11 +30,10 @@ class Login {
 
     public function post() 
     {
-        //$_POST = json_decode(file_get_contents("php://input"), true);
         $enrolmentNumber = $_POST["enrolmentNumber"];
         $password = $_POST["password"];
         $rows = \Model\Post::login($enrolmentNumber, $password);
-        if (true) {
+        if ($rows) {
             session_start();
             $_SESSION["enrolmentNumber"] = $enrolmentNumber;
             header("Location: /dashboard");
@@ -59,7 +55,7 @@ class Dashboard {
 class showList {
     public function get() {
         session_start();
-        $enrolmentNumber = $_GET["enrolmentNumber"];
+        $enrolmentNumber = $_SESSION["enrolmentNumber"];
         \Utils\Auth::userAuth();
         echo \View\Loader::make()->render("templates/checkoutList.twig", array(
             "list" => \Model\Post::get_list($enrolmentNumber),

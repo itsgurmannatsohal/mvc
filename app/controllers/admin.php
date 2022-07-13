@@ -49,7 +49,6 @@ class AddBooks {
 
     public function post() {
         \Utils\Auth::adminAuth();
-        //$_POST = json_decode(file_get_contents("php://input"), true);
         $bookName = $_POST["bookName"];
         $authorName = $_POST["authorName"];
         $copies = $_POST["copies"];
@@ -71,9 +70,6 @@ class accept {
         $requestType = $_POST["requestType"];
 
         $rows = \Model\Post::accept($available, $requestType, $enrolmentNumber, $bookID);
-        if ($rows) {
-            header("Location: /admin/requests");
-        } 
     }        
 }
 
@@ -83,12 +79,8 @@ class deny {
         $_POST = json_decode(file_get_contents("php://input"), true);
         $enrolmentNumber = $_POST["enrolmentNumber"];
         $bookID = $_POST["bookID"];
+
         $rows = \Model\Post::deny($enrolmentNumber, $bookID);
-        if ($rows) {
-            echo \View\Loader::make()->render("templates/adminRequests.twig", array(
-            "requests" => \Model\Post::get_requests(),
-        ));
-        } 
     }        
 }
 
@@ -101,11 +93,6 @@ class plusBooks {
         $available = $_POST["available"];
         $bookID = $_POST["bookID"];
         $rows = \Model\Post::plus_books($copies, $bookID, $available);
-        if (true) {
-            header("Location: /admin/books");
-        } else {
-            header("Location: https://www.google.com/ ");
-        }
     }        
 }
 
@@ -118,8 +105,5 @@ class minusBooks {
         $available = $_POST["available"];
         $bookID = $_POST["bookID"];
         $rows = \Model\Post::minus_books($copies, $bookID, $available);
-        if ($rows) {
-            header("Location: /admin/books");
-        } 
     }        
 }
