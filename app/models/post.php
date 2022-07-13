@@ -6,58 +6,57 @@ use Bcrypt\Bcrypt;
 
 class Post {    
 
-     public static function adminLogin($username, $password)
+    public static function adminLogin($username, $password)
     {
         $bcrypt = new Bcrypt();
         $db = \DB::get_instance();
         $stmt = $db->prepare("SELECT * FROM admins WHERE username = ? AND password = ?");
         $stmt->execute([$username, $password]);
         $rows = $stmt->fetchAll();
-        if ($rows) {
-            return $rows;
-        }
-        return false;
+        return $rows;
+        
     }
 
-      public static function login($enrolmentNumber, $password)
+    public static function loginA($enrolmentNumber, $password)
     {
         $bcrypt = new Bcrypt();
         $db = \DB::get_instance();
         $stmt = $db->prepare("SELECT * FROM users WHERE enrolmentNumber = ?");
         $stmt->execute([$enrolmentNumber]);
         $rows = $stmt->fetchAll();
-        if ($rows) {
-            if ($bcrypt->verify($password, $rows[0]["password"])) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-        return false;
-        }
+        return $rows;
     }
 
-       public static function signup($enrolmentNumber, $password1, $password2)
+    public static function loginB($enrolmentNumber, $password)
     {
-        if ($password1 == $password2) {
-            $bcrypt = new Bcrypt();
-            $bcrypt_version = '2a';
-            $hash = $bcrypt->encrypt($password1, $bcrypt_version);
-            $db = \DB::get_instance();
-            $stmt = $db->prepare("SELECT * FROM users WHERE enrolmentNumber = ?");
-            $stmt->execute([$username]);
-            $row = $stmt->fetchAll();
-            if ($row) {
-                echo "User already exists";
-                return false;
-            } else {
-                $stmt = $db->prepare("INSERT INTO users (enrolmentNumber, password) VALUES (?, ?)");
-                $stmt->execute([$enrolmentNumber, $hash]);
-                return true;
-            }
-        } else {
-            echo "Passwords don't match";
-        }
+        $bcrypt = new Bcrypt();
+        $db = \DB::get_instance();
+        $stmt = $db->prepare("SELECT * FROM users WHERE enrolmentNumber = ?");
+        $stmt->execute([$enrolmentNumber]);
+        $rows = $stmt->fetchAll();
+    
+        $verify = $bcrypt->verify($password, $rows[0]["password"]);
+        return $verify;
+    }
+
+    public static function signupA($enrolmentNumber, $password1, $password2)
+    {   
+        $db = \DB::get_instance();
+        $stmt = $db->prepare("SELECT * FROM users WHERE enrolmentNumber = ?");
+        $stmt->execute([$enrolmentNumber]);
+        $row = $stmt->fetchAll();
+        return $row;
+    }
+
+    public static function signupB($enrolmentNumber, $password1, $password2)
+    {
+        $db = \DB::get_instance();
+        $bcrypt = new Bcrypt();
+        $bcrypt_version = '2a';
+        $hash = $bcrypt->encrypt($password1, $bcrypt_version);
+        $stmt = $db->prepare("INSERT INTO users (enrolmentNumber, password) VALUES (?, ?)");
+        $stmt->execute([$enrolmentNumber, $hash]);
+        return true;  
     }
     
     public static function get_books() {
@@ -84,69 +83,86 @@ class Post {
         return $row;
     }
 
-      public static function request_in($enrolmentNumber, $bookID) {
+    public static function request_inA($enrolmentNumber, $bookID) {
         $db = \DB::get_instance();
         $stmt = $db->prepare("SELECT * FROM requests WHERE Id = ? AND enrolmentNumber = ? AND status = 2 AND type = 7;");
         $stmt->execute([$bookID, $enrolmentNumber]);
-        $row = $stmt->fetchAll();
-        if ($row) {
-            echo "Already requested";
-        } else {
+        $row = $stmt->fetchAll();        
+        return $row;
+    }
+
+    public static function request_inB($enrolmentNumber, $bookID) {
+ 
             $db = \DB::get_instance();
             $stmt = $db->prepare("INSERT INTO requests (id, enrolmentNumber, type, status, req) VALUES (
                 ?, ?, 7, 2, 'Check-in');");
             $stmt->execute([$bookID, $enrolmentNumber]);
             $row = $stmt->fetchAll();
             return $row;
-        }
     }
 
-        public static function request_out($enrolmentNumber, $bookID) {
+    public static function request_outA($enrolmentNumber, $bookID) {
         $db = \DB::get_instance();
         $stmt = $db->prepare("SELECT * FROM requests WHERE Id = ? AND enrolmentNumber = ? AND status = 2 AND type = 9;");
         $stmt->execute([$bookID, $enrolmentNumber]);
         $row = $stmt->fetch();
-        if ($row) {
-            echo "Already requested";
-        } else {
+    }
+
+    public static function request_outB($enrolmentNumber, $bookID)
+    {
             $db = \DB::get_instance();
             $stmt = $db->prepare("INSERT INTO requests (id, enrolmentNumber, type, status, req) VALUES (
                 ?, ?, 9, 2, 'Check-out');");
             $stmt->execute([$bookID, $enrolmentNumber]);
             $row = $stmt->fetchAll();
-            return $row;
-        }
+            return $row; 
     }
 
-        public static function accept($available, $requestType, $enrolmentNumber, $bookID) {
-            $y = $available + 1;
-            $x = $available - 1;
+    public static function accept1A($available, $requestType, $enrolmentNumber, $bookID) {
 
-         if ($requestType == 7) {
-
-            $db = \DB::get_instance();
-            $stmt1 = $db->prepare("UPDATE books SET available = ? WHERE id = ? ;");
-            $stmt1 ->execute([$y, $bookID]);
-            $stmt2 = $db->prepare("UPDATE requests SET status = 1 WHERE id = ? AND enrolmentNumber = ? AND type = ?;");
-            $stmt2 ->execute([$bookID, $enrolmentNumber, $requestType]);
-            $stmt3 = $db->prepare("UPDATE requests SET type = 7 WHERE status = 1 AND enrolmentNumber= ? AND type = 9;");
-            $stmt3 ->execute([$enrolmentNumber]);
-            return true;
-
-        } else {
-
-            $db = \DB::get_instance();
-            $stmt1 = $db->prepare("UPDATE books SET enrolmentNumber= ?, available= ? WHERE id = ?;");
-            $stmt1 ->execute([$enrolmentNumber, $x, $bookID]);
-            $stmt2 = $db->prepare("UPDATE requests SET status = 1 WHERE id = ? AND enrolmentNumber = ? AND type= ?;");
-            $stmt2 ->execute([$bookID, $enrolmentNumber, $requestType]);
+        $available += 1;
             
-            return true;
-
-        }
+        $db = \DB::get_instance();
+        $stmt1 = $db->prepare("UPDATE books SET available = ? WHERE id = ? ;");
+        $stmt1 ->execute([$available, $bookID]);
+        return true;  
     }
 
-        public static function deny($enrolmentNumber, $bookID) {
+    public static function accept1B($available, $requestType, $enrolmentNumber, $bookID) {
+            
+        $db = \DB::get_instance();
+        $stmt2 = $db->prepare("UPDATE requests SET status = 1 WHERE id = ? AND enrolmentNumber = ? AND type = ?;");
+        $stmt2 ->execute([$bookID, $enrolmentNumber, $requestType]);
+        return true;  
+    }
+
+    public static function accept1C($available, $requestType, $enrolmentNumber, $bookID) {
+            
+        $db = \DB::get_instance();
+        $stmt3 = $db->prepare("UPDATE requests SET type = 7 WHERE status = 1 AND enrolmentNumber= ? AND type = 9;");
+        $stmt3 ->execute([$enrolmentNumber]);
+        return true;  
+    }
+
+    public static function accept2A($available, $requestType, $enrolmentNumber, $bookID) {
+
+        $available -= 1;
+
+        $db = \DB::get_instance();
+        $stmt1 = $db->prepare("UPDATE books SET enrolmentNumber= ?, available= ? WHERE id = ?;");
+        $stmt1 ->execute([$enrolmentNumber, $available, $bookID]);
+        return true;
+     }
+
+    public static function accept2B($available, $requestType, $enrolmentNumber, $bookID) {
+
+        $db = \DB::get_instance();
+        $stmt2 = $db->prepare("UPDATE requests SET status = 1 WHERE id = ? AND enrolmentNumber = ? AND type= ?;");
+        $stmt2 ->execute([$bookID, $enrolmentNumber, $requestType]);
+        return true;
+     }
+
+    public static function deny($enrolmentNumber, $bookID) {
         $db = \DB::get_instance();
         $stmt = $db->prepare("UPDATE requests SET status = 0 WHERE id = ? AND enrolmentNumber = ?;");
         $stmt->execute([$bookID, $enrolmentNumber]);
@@ -161,7 +177,7 @@ class Post {
         return true;
     }
 
-     public static function plus_books($copies, $bookID, $available) {
+    public static function plus_books($copies, $bookID, $available) {
             $copies += 1;
             $available += 1;
         $db = \DB::get_instance();
@@ -170,17 +186,13 @@ class Post {
         return true;
     }
 
-     public static function minus_books($copies, $bookID, $available) {
+    public static function minus_books($copies, $bookID, $available) {
             $copies -= 1;
             $available -= 1;
         $db = \DB::get_instance();
-        if ($available > 0) {
         $stmt = $db->prepare("UPDATE books SET copies = ?, available = ? WHERE id = ?;");
         $stmt->execute([$copies, $available, $bookID]);
         $row = $stmt->fetchAll();
-        } else {
-            echo "No books available to subtract";
-        }
         return $row;
     }
 }

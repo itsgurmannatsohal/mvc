@@ -1,0 +1,32 @@
+<?php
+
+namespace Controller;
+
+class signup {
+    public function get()
+    {
+        echo \View\Loader::make()->render("signup.twig");
+    }
+        public function post() {
+        $enrolmentNumber = $_POST["enrolmentNumber"];
+        $password1 = $_POST["password1"];
+        $password2 = $_POST["password2"];
+        if ($password1 == $password2) {
+        $rows = \Model\Post::signupA($enrolmentNumber, $password1, $password2);
+          if ($rows) {
+            echo "User already exists";
+          } else {
+            $rows2 = \Model\Post::signupB($enrolmentNumber, $password1, $password2);
+                if ($rows2){
+                    session_start();
+                    $_SESSION["enrolmentNumber"] = $enrolmentNumber;
+                    echo \View\Loader::make()->render("templates/dashboard.twig", array(
+                    "books" => \Model\Post::get_books(),
+                    ));
+                }
+            }
+        } else {
+            echo "Passwords don't match";
+        }
+    }        
+}
