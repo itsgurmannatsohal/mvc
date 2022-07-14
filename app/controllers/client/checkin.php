@@ -2,18 +2,18 @@
 
 namespace Controller;
 
-class checkin {
+class Checkin {
     public function post() {
         \Utils\Auth::userAuth();
         $_POST = json_decode(file_get_contents("php://input"), true);
         session_start();
-        $enrolmentNumber = $_SESSION["enrolmentNumber"];
-        $bookID = $_POST["bookID"];
-        $rows = \Model\Post::request_inA($enrolmentNumber, $bookID);
+        $enrolment_number = $_SESSION["enrolment_number"];
+        $book_id = $_POST["book_id"];
+        $rows = \Model\Post::request_inA($enrolment_number, $book_id);
         if ($rows) {
             echo "Already requested";
         } else {
-            $rows = \Model\Post::request_inB($enrolmentNumber, $bookID);
+            $rows = \Model\Post::request_inB($enrolment_number, $book_id);
             if ($rows){
              header("Location: /dashboard/list");
         }

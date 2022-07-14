@@ -2,7 +2,7 @@
 
 namespace Controller;
 
-class adminLogin {
+class AdminLogin {
     public function get()
     {
         echo \View\Loader::make()->render("adminLogin.twig");
@@ -11,7 +11,7 @@ class adminLogin {
     public function post() {
         $username = $_POST["username"];
         $password = $_POST["password"];
-        $rows = \Model\Post::adminLogin($username, $password);
+        $rows = \Model\AdminPost::adminLogin($username, $password);
         if ($rows) {
             session_start();
             $_SESSION["username"] = $username;

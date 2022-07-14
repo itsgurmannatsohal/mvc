@@ -1,20 +1,20 @@
-let bookID, bookStatus;
+let book_id, book_status;
 const button1 = document.querySelectorAll(".accept-btn");
 const button2 = document.querySelectorAll(".deny-btn");
 
 function acceptId(elem1, elem2, elem3, elem4) {
-  bookID = elem1;
-  requestType = elem2;
-  enrolmentNumber = elem3;
+  book_id = elem1;
+  request_type = elem2;
+  enrolment_number = elem3;
   available = elem4;
   console.log(elem1, elem2, elem3, elem4);
   postaccept();
 }
 
 function denyId(elem1, elem2, elem3) {
-  bookID = elem1;
-  requestType = elem2;
-  enrolmentNumber = elem3;
+  book_id = elem1;
+  request_type = elem2;
+  enrolment_number = elem3;
   postdeny();
 }
 
@@ -22,9 +22,9 @@ function postaccept() {
   console.log("Accepted");
   axios
     .post("/admin/requests/accept", {
-      bookID: bookID,
-      requestType: requestType,
-      enrolmentNumber: enrolmentNumber,
+      book_id: book_id,
+      request_type: request_type,
+      enrolment_number: enrolment_number,
       available: available,
     })
     .then((res) => {
@@ -37,9 +37,9 @@ function postdeny() {
   console.log("Denied");
   axios
     .post("/admin/requests/deny", {
-      bookID: bookID,
-      requestType: requestType,
-      enrolmentNumber: enrolmentNumber,
+      book_id: book_id,
+      request_type: request_type,
+      enrolment_number: enrolment_number,
     })
     .then((res) => {
       console.log(res);
@@ -48,14 +48,14 @@ function postdeny() {
 }
 
 function plus(elem1, elem2, elem3) {
-  bookID = elem1;
+  book_id = elem1;
   copies = elem2;
   available = elem3;
   postplus();
 }
 
 function minus(elem1, elem2, elem3) {
-  bookID = elem1;
+  book_id = elem1;
   copies = elem2;
   available = elem3;
   postminus();
@@ -64,7 +64,7 @@ function minus(elem1, elem2, elem3) {
 function postplus() {
   axios
     .post("/admin/books/plus", {
-      bookID: bookID,
+      book_id: book_id,
       copies: copies,
       available: available,
     })
@@ -77,7 +77,7 @@ function postplus() {
 function postminus() {
   axios
     .post("/admin/books/minus", {
-      bookID: bookID,
+      book_id: book_id,
       copies: copies,
       available: available,
     })
@@ -102,7 +102,7 @@ function checkinId(elem) {
 function postcheckout(elem1, elem2) {
   axios
     .post("/dashboard/requestOut", {
-      bookID: elem1,
+      book_id: elem1,
       available: elem2,
     })
     .then((res) => {
@@ -114,7 +114,7 @@ function postcheckout(elem1, elem2) {
 function postcheckin(elem) {
   axios
     .post("/dashboard/requestIn", {
-      bookID: elem,
+      book_id: elem,
     })
     .then((res) => {
       console.log(res);

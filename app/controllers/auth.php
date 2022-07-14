@@ -17,7 +17,7 @@ class Auth
     public static function userAuth()
     {
         session_start();
-        if ($_SESSION["enrolmentNumber"]) {
+        if ($_SESSION["enrolment_number"]) {
             return true;
         } else {
             header("Location: /signin");

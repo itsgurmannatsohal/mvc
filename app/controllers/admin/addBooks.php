@@ -2,7 +2,7 @@
 
 namespace Controller;
 
-class addBooks {
+class AddBooks {
     public function get() {
         \Utils\Auth::adminAuth();
         echo \View\Loader::make()->render("addBooks.twig");
@@ -10,11 +10,11 @@ class addBooks {
 
     public function post() {
         \Utils\Auth::adminAuth();
-        $bookName = $_POST["bookName"];
-        $authorName = $_POST["authorName"];
+        $book_name = $_POST["book_name"];
+        $author_name = $_POST["author_name"];
         $copies = $_POST["copies"];
 
-        $rows = \Model\Post::add_books($bookName, $authorName, $copies);
+        $rows = \Model\AdminPost::add_books($book_name, $author_name, $copies);
         if ($rows) {
             header("Location: /admin/books");
         }

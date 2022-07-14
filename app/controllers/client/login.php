@@ -2,7 +2,7 @@
 
 namespace Controller;
 
-class login {
+class Login {
     public function get()
     {
         echo \View\Loader::make()->render("login.twig");
@@ -10,14 +10,14 @@ class login {
 
     public function post() 
     {
-        $enrolmentNumber = $_POST["enrolmentNumber"];
+        $enrolment_number = $_POST["enrolment_number"];
         $password = $_POST["password"];
-        $rows = \Model\Post::loginA($enrolmentNumber, $password);
+        $rows = \Model\Post::loginA($enrolment_number, $password);
         if ($rows){
-            $rows2 = \Model\Post::loginB($enrolmentNumber, $password);
+            $rows2 = \Model\Post::loginB($enrolment_number, $password);
             if ($rows2) {
             session_start();
-            $_SESSION["enrolmentNumber"] = $enrolmentNumber;
+            $_SESSION["enrolment_number"] = $enrolment_number;
             header("Location: /dashboard");
         } else {
             echo "Enrolment number or password is wrong";   

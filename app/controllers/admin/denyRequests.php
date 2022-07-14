@@ -2,13 +2,13 @@
 
 namespace Controller;
 
-class denyRequests {
+class DenyRequests {
     public function post() {
         \Utils\Auth::adminAuth();
         $_POST = json_decode(file_get_contents("php://input"), true);
-        $enrolmentNumber = $_POST["enrolmentNumber"];
-        $bookID = $_POST["bookID"];
+        $enrolment_number = $_POST["enrolment_number"];
+        $book_id = $_POST["book_id"];
 
-        $rows = \Model\Post::deny($enrolmentNumber, $bookID);
+        $rows = \Model\AdminPost::deny($enrolment_number, $book_id);
     }        
 }

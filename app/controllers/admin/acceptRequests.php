@@ -2,27 +2,27 @@
 
 namespace Controller;
 
-class acceptRequests {
+class AcceptRequests {
     public function post() {
         \Utils\Auth::adminAuth();
         $_POST = json_decode(file_get_contents("php://input"), true);
-        $enrolmentNumber = $_POST["enrolmentNumber"];
+        $enrolment_number = $_POST["enrolment_number"];
         $available = $_POST["available"];
-        $bookID = $_POST["bookID"];
-        $requestType = $_POST["requestType"];
+        $book_id = $_POST["book_id"];
+        $request_type = $_POST["request_type"];
 
-        if ($requestType==7){
-        $rows = \Model\Post::accept1A($available, $requestType, $enrolmentNumber, $bookID);
+        if ($request_type==7){
+        $rows = \Model\AdminPost::accept1A($available, $request_type, $enrolment_number, $book_id);
             if($rows){
-                $rows = \Model\Post::accept1B($available, $requestType, $enrolmentNumber, $bookID);
+                $rows = \Model\Post::accept1B($available, $request_type, $enrolment_number, $book_id);
                     if ($rows) {
-                        $rows = \Model\Post::accept1C($available, $requestType, $enrolmentNumber, $bookID);
+                        $rows = \Model\AdminPost::accept1C($available, $request_type, $enrolment_number, $book_id);
                     }
             }
         } else {
-        $rows = \Model\Post::accept2A($available, $requestType, $enrolmentNumber, $bookID);
+        $rows = \Model\adminPost::accept2A($available, $request_type, $enrolment_number, $book_id);
             if($rows){{
-                $rows = \Model\Post::accept2B($available, $requestType, $enrolmentNumber, $bookID);
+                $rows = \Model\AdminPost::accept2B($available, $request_type, $enrolment_number, $book_id);
             }}
         }
     }        

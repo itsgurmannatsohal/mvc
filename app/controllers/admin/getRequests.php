@@ -2,11 +2,11 @@
 
 namespace Controller;
 
-class getRequests {
+class GetRequests {
     public function get() {
         \Utils\Auth::adminAuth();
         echo \View\Loader::make()->render("templates/adminRequests.twig", array(
-            "requests" => \Model\Post::get_requests(),
+            "requests" => \Model\AdminPost::get_requests(),
         ));
     }
 }
