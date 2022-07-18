@@ -8,6 +8,7 @@ Toro::serve(array(
     "/admin/books/add" => "\Controller\AddBooks",
     "/admin/books/plus" => "\Controller\PlusBooks",
     "/admin/books/minus" => "\Controller\MinusBooks",
+    "/admin/books/remove" => "\Controller\RemoveBook",
     "/admin/requests" => "\Controller\GetRequests",
     "/admin/requests/accept" => "\Controller\AcceptRequests",
     "/admin/requests/deny" => "\Controller\DenyRequests",

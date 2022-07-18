@@ -32,7 +32,7 @@ class AdminPost {
         return $rows;
     }
     
-    public static function accept1A($available, $requestType, $enrolment_number, $bookID) {
+    public static function accept_in_books($available, $requestType, $enrolment_number, $bookID) {
 
         $available += 1;
             
@@ -42,7 +42,7 @@ class AdminPost {
         return true;  
     }
 
-    public static function accept1B($available, $request_type, $enrolment_number, $book_id) {
+    public static function accept_in_requests_1($available, $request_type, $enrolment_number, $book_id) {
             
         $db = \DB::get_instance();
         $stmt2 = $db->prepare("UPDATE requests SET status = 1 WHERE id = ? AND enrolmentNumber = ? AND type = ?;");
@@ -50,7 +50,7 @@ class AdminPost {
         return true;  
     }
 
-    public static function accept1C($available, $request_type, $enrolment_number, $book_id) {
+    public static function accept_in_requests_2($available, $request_type, $enrolment_number, $book_id) {
             
         $db = \DB::get_instance();
         $stmt3 = $db->prepare("UPDATE requests SET type = 7 WHERE status = 1 AND enrolmentNumber= ? AND type = 9;");
@@ -58,7 +58,7 @@ class AdminPost {
         return true;  
     }
 
-    public static function accept2A($available, $request_type, $enrolment_number, $book_id) {
+    public static function accept_out_books($available, $request_type, $enrolment_number, $book_id) {
 
         $available -= 1;
 
@@ -68,7 +68,7 @@ class AdminPost {
         return true;
      }
 
-    public static function accept2B($available, $request_type, $enrolment_number, $book_id) {
+    public static function accept_out_requests($available, $request_type, $enrolment_number, $book_id) {
 
         $db = \DB::get_instance();
         $stmt2 = $db->prepare("UPDATE requests SET status = 1 WHERE id = ? AND enrolmentNumber = ? AND type= ?;");
@@ -106,6 +106,30 @@ class AdminPost {
         $db = \DB::get_instance();
         $stmt = $db->prepare("UPDATE books SET copies = ?, available = ? WHERE id = ?;");
         $stmt->execute([$copies, $available, $book_id]);
+        $row = $stmt->fetchAll();
+        return $row;
+    }
+
+       public static function remove_book($book_id) {
+        $db = \DB::get_instance();
+        $stmt = $db->prepare("SELECT * FROM requests WHERE id = ? AND status = 1;");
+        $stmt->execute([$book_id]);
+        $row = $stmt->fetchAll();
+        return $row;
+    }
+
+      public static function remove_book_del_req($book_id) {
+        $db = \DB::get_instance();
+        $stmt = $db->prepare("DELETE FROM requests WHERE id = ?;");
+        $stmt->execute([$book_id]);
+        $row = $stmt->fetchAll();
+        return $row;
+    }
+
+        public static function remove_book_del_book($book_id) {
+        $db = \DB::get_instance();
+        $stmt = $db->prepare("DELETE FROM books WHERE id = ?;");
+        $stmt->execute([$book_id]);
         $row = $stmt->fetchAll();
         return $row;
     }

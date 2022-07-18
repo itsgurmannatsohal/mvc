@@ -20,8 +20,7 @@
         <th>Author</th>
         <th>Total copies</th>
         <th>Copies available</th>
-        <th></th>
-        <th></th>
+       
     </tr>
 
     {% for book in books %}
@@ -32,9 +31,11 @@
             <td>{{book.author}}</td>
             <td>{{book.copies}}</td>
             <td>{{book.available}}</td>
+            
 
-            <td><button onclick="plus({{book.id}}, {{book.copies}}, {{book.available}})">+</button></td>
-            <td><button onclick="minus({{book.id}}, {{book.copies}}, {{book.available}})">-</button></td>
+            <td><button onclick="plus({{book.id}}, {{book.copies}}, {{book.available}})">+1</button></td>
+            <td><button onclick="minus({{book.id}}, {{book.copies}}, {{book.available}})">-1</button></td>
+            <td><button onclick="remove({{book.id}})">Remove book</button></td>
         </tr>
   
     {% endfor %}

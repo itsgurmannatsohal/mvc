@@ -12,17 +12,17 @@ class AcceptRequests {
         $request_type = $_POST["request_type"];
 
         if ($request_type==7){
-        $rows = \Model\AdminPost::accept1A($available, $request_type, $enrolment_number, $book_id);
+        $rows = \Model\AdminPost::accept_in_books($available, $request_type, $enrolment_number, $book_id);
             if($rows){
-                $rows = \Model\Post::accept1B($available, $request_type, $enrolment_number, $book_id);
+                $rows = \Model\AdminPost::accept_in_requests_1($available, $request_type, $enrolment_number, $book_id);
                     if ($rows) {
-                        $rows = \Model\AdminPost::accept1C($available, $request_type, $enrolment_number, $book_id);
+                        $rows = \Model\AdminPost::accept_in_requests_2($available, $request_type, $enrolment_number, $book_id);
                     }
             }
         } else {
-        $rows = \Model\adminPost::accept2A($available, $request_type, $enrolment_number, $book_id);
+        $rows = \Model\AdminPost::accept_out_books($available, $request_type, $enrolment_number, $book_id);
             if($rows){{
-                $rows = \Model\AdminPost::accept2B($available, $request_type, $enrolment_number, $book_id);
+                $rows = \Model\AdminPost::accept_out_requests($available, $request_type, $enrolment_number, $book_id);
             }}
         }
     }        

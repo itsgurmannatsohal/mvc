@@ -9,11 +9,11 @@ class Checkin {
         session_start();
         $enrolment_number = $_SESSION["enrolment_number"];
         $book_id = $_POST["book_id"];
-        $rows = \Model\Post::request_inA($enrolment_number, $book_id);
+        $rows = \Model\Post::request_in_select($enrolment_number, $book_id);
         if ($rows) {
             echo "Already requested";
         } else {
-            $rows = \Model\Post::request_inB($enrolment_number, $book_id);
+            $rows = \Model\Post::request_in_insert($enrolment_number, $book_id);
             if ($rows){
              header("Location: /dashboard/list");
         }

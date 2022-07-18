@@ -12,9 +12,9 @@ class Login {
     {
         $enrolment_number = $_POST["enrolment_number"];
         $password = $_POST["password"];
-        $rows = \Model\Post::loginA($enrolment_number, $password);
+        $rows = \Model\Post::login_enrolment_number($enrolment_number, $password);
         if ($rows){
-            $rows2 = \Model\Post::loginB($enrolment_number, $password);
+            $rows2 = \Model\Post::login_password($enrolment_number, $password);
             if ($rows2) {
             session_start();
             $_SESSION["enrolment_number"] = $enrolment_number;

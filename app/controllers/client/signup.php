@@ -12,11 +12,11 @@ class Signup {
         $password1 = $_POST["password1"];
         $password2 = $_POST["password2"];
         if ($password1 == $password2) {
-        $rows = \Model\Post::signupA($enrolment_number, $password1, $password2);
+        $rows = \Model\Post::signup_enrolment__number($enrolment_number, $password1, $password2);
           if ($rows) {
             echo "User already exists";
           } else {
-            $rows2 = \Model\Post::signupB($enrolment_number, $password1, $password2);
+            $rows2 = \Model\Post::signup_password($enrolment_number, $password1, $password2);
                 if ($rows2){
                     session_start();
                     $_SESSION["enrolmentNumber"] = $enrolment_number;

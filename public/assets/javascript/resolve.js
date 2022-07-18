@@ -122,3 +122,17 @@ function postcheckin(elem) {
     });
 }
 
+function remove(elem1) {
+  postremove(elem1);
+}
+
+function postremove(elem1) {
+  axios
+    .post("/admin/books/remove", {
+      book_id: elem1,
+    })
+    .then((res) => {
+      console.log(res);
+      window.location.href = "http://localhost:8080/admin/books";
+    });
+}
