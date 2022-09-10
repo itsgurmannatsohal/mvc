@@ -3,12 +3,14 @@
 namespace Controller;
 
 class AddBooks {
-    public function get() {
+    public function get() 
+    {
         \Utils\Auth::adminAuth();
         echo \View\Loader::make()->render("addBooks.twig");
     }
 
-    public function post() {
+    public function post() 
+    {
         \Utils\Auth::adminAuth();
         $book_name = $_POST["book_name"];
         $author_name = $_POST["author_name"];

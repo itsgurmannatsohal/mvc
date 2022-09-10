@@ -8,10 +8,11 @@ class AdminLogin {
         echo \View\Loader::make()->render("adminLogin.twig");
     }
 
-    public function post() {
+    public function post() 
+    {
         $username = $_POST["username"];
         $password = $_POST["password"];
-        $rows = \Model\AdminPost::adminLogin($username, $password);
+        $rows = \Model\AdminPost::admin_login($username, $password);
         if ($rows) {
             session_start();
             $_SESSION["username"] = $username;

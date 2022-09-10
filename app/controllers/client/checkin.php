@@ -3,7 +3,8 @@
 namespace Controller;
 
 class Checkin {
-    public function post() {
+    public function post() 
+    {
         \Utils\Auth::userAuth();
         $_POST = json_decode(file_get_contents("php://input"), true);
         session_start();
@@ -15,8 +16,8 @@ class Checkin {
         } else {
             $rows = \Model\Post::request_in_insert($enrolment_number, $book_id);
             if ($rows){
-             header("Location: /dashboard/list");
+            header("Location: /dashboard/list");
+            }
         }
-    }
     }        
 }

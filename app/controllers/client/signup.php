@@ -7,12 +7,14 @@ class Signup {
     {
         echo \View\Loader::make()->render("signup.twig");
     }
-        public function post() {
+
+    public function post() 
+    {
         $enrolment_number = $_POST["enrolment_number"];
         $password1 = $_POST["password1"];
         $password2 = $_POST["password2"];
         if ($password1 == $password2) {
-        $rows = \Model\Post::signup_enrolment__number($enrolment_number, $password1, $password2);
+        $rows = \Model\Post::signup_enrolment_number($enrolment_number, $password1, $password2);
           if ($rows) {
             echo "User already exists";
           } else {

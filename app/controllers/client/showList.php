@@ -3,7 +3,8 @@
 namespace Controller;
 
 class ShowList {
-    public function get() {
+    public function get() 
+    {
         session_start();
         $enrolment_number = $_SESSION["enrolment_number"];
         \Utils\Auth::userAuth();

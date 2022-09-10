@@ -28,7 +28,7 @@ class Post {
         return $verify;
     }
 
-    public static function signup_enrolment__number($enrolment_number, $password1, $password2)
+    public static function signup_enrolment_number($enrolment_number, $password1, $password2)
     {   
         $db = \DB::get_instance();
         $stmt = $db->prepare("SELECT * FROM users WHERE enrolmentNumber = ?");
@@ -48,7 +48,8 @@ class Post {
         return true;  
     }
 
-        public static function get_books() {
+        public static function get_books() 
+    {
         $db = \DB::get_instance();
         $stmt = $db->prepare("SELECT * FROM books");
         $stmt->execute();
@@ -56,7 +57,8 @@ class Post {
         return $rows;
     }
     
-    public static function get_list($enrolment_number) {
+    public static function get_list($enrolment_number) 
+    {
         $db = \DB::get_instance();
         $stmt = $db->prepare("SELECT books.id, books.name, books.author FROM books INNER JOIN requests ON books.id= requests.id WHERE requests.status = 1 AND requests.enrolmentNumber= ? AND type = 9;");
         $stmt->execute([$enrolment_number]);
@@ -64,7 +66,8 @@ class Post {
         return $row;
     }
 
-   public static function request_in_select($enrolment_number, $book_id) {
+   public static function request_in_select($enrolment_number, $book_id) 
+   {
         $db = \DB::get_instance();
         $stmt = $db->prepare("SELECT * FROM requests WHERE Id = ? AND enrolmentNumber = ? AND status = 2 AND type = 7;");
         $stmt->execute([$book_id, $enrolment_number]);
@@ -72,7 +75,8 @@ class Post {
         return $row;
     }
 
-    public static function request_in_insert($enrolment_number, $book_id) {
+    public static function request_in_insert($enrolment_number, $book_id) 
+    {
  
             $db = \DB::get_instance();
             $stmt = $db->prepare("INSERT INTO requests (id, enrolmentNumber, type, status, req) VALUES (

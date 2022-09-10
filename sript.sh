@@ -1,41 +1,31 @@
 #! /bin/bash
 
-git clone git@github.com:itsgurmannatsohal/mvc.git
+	composer install
+	composer dump-autoload
+	echo 'Rewrite config file'
+	echo 'DB_HOST:'
+	read DB_HOST
+	echo 'DB_PORT:'
+	read DB_PORT 
+	echo 'DB_NAME:'
+	read DB_NAME 
+	echo 'DB_USERNAME:'
+	read DB_USERNAME
+	echo 'DB_PASSWORD:'
+	read -s DB_PASSWORD
 
-cd mvc
+	MYSQL_PWD=$DB_PASSWORD mysql -u $DB_USERNAME -e "CREATE DATABASE $DB_NAME;"
+        
+    MYSQL_PWD=$DB_PASSWORD mysql -u $DB_USERNAME "$DB_NAME"<./schema/schema.sql
 
-curl -s https://getcomposer.org/installer | php
-sudo mv composer.phar /usr/local/bin/composer
+	touch config/config.php
+	echo '<?php'>config/config.php
+    echo '$DB_HOST = "'$DB_HOST'";' >> config/config.php
+    echo '$DB_PORT = "'$DB_PORT'";' >> config/config.php
+    echo '$DB_NAME = "'$DB_NAME'";' >> config/config.php
+    echo '$DB_USERNAME = "'$DB_USERNAME'";' >> config/config.php
+    echo '$DB_PASSWORD = "'$DB_PASSWORD'";' >> config/config.php
+	echo '?>'>>config/config.php
 
-composer install
-composer dump-autoload
-
-$DB_HOST 
-$DB_PORT 
-$DB_NAME 
-$DB_USERNAME
-$DB_PASSWORD
-
-echo 'Rewrite config file'
-echo 'DB_HOST:'
-read DB_HOST
-echo 'DB_PORT:'
-read DB_PORT 
-echo 'DB_NAME:'
-read DB_NAME 
-echo 'DB_USERNAME:'
-read DB_USERNAME
-echo 'DB_PASSWORD:'
-read DB_PASSWORD
-
-touch config/config.php
-echo '<?php'>config/config.php
-echo '$DB_HOST= '$DB_HOST';'>>config/config.php
-echo '$DB_PORT= '$DB_PORT';'>>config/config.php
-echo '$DB_NAME= '$DB_NAME';'>>config/config.php
-echo '$DB_USERNAME= '$DB_USERNAME';'>>config/config.php
-echo '$DB_PASSWORD= '$DB_PASSWORD';'>>config/config.php
-echo '?>'>>config/config.php
-
-cd public
-php -S localhost:8080
+	cd public
+	php -S localhost:8080

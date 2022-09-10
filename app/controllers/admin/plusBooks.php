@@ -3,7 +3,8 @@
 namespace Controller;
 
 class PlusBooks {
-    public function post() {
+    public function post() 
+    {
         \Utils\Auth::adminAuth();
         $_POST = json_decode(file_get_contents("php://input"), true);
         session_start();
