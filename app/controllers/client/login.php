@@ -10,18 +10,30 @@ class Login {
 
     public function post() 
     {
-        $enrolment_number = $_POST["enrolment_number"];
+        $username = $_POST["username"];
         $password = $_POST["password"];
-        $rows = \Model\Post::login_enrolment_number($enrolment_number, $password);
+
+    $rows = \Model\AdminPost::admin_role($username);
+    if ($rows){
+        
+        $rows = \Model\AdminPost::admin_login($username, $password);
         if ($rows) {
-            $rows2 = \Model\Post::login_password($enrolment_number, $password);
-            if ($rows2) {
             session_start();
-            $_SESSION["enrolment_number"] = $enrolment_number;
-            header("Location: /dashboard");
+            $_SESSION["username"] = $username;
+            header("Location: /admin/books");
         } else {
-            echo "Enrolment number or password is wrong";   
-            }
-        }
-    }        
+        echo "Username or password is wrong";
+        }   
+    } else {
+    $rows = \Model\Post::login_enrolment_number($username, $password);
+        if ($rows) {
+            $rows = \Model\Post::login_password($username, $password);
+            if ($rows) {  
+            session_start();
+            $_SESSION["username"] = $username;
+            header("Location: /dashboard");
+    }   else {
+            echo "Username or password is wrong";   
+            }     
 }
+}}}

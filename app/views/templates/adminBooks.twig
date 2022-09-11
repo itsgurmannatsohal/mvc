@@ -15,7 +15,7 @@
     <table border="2">
 
     <tr>
-        <th>ID</th>
+        <th>Book ID</th>
         <th>Books</th>
         <th>Author</th>
         <th>Total copies</th>
@@ -33,8 +33,8 @@
             <td>{{book.available}}</td>
             
 
-            <td><button onclick="plus({{book.id}}, {{book.copies}}, {{book.available}})">+1</button></td>
-            <td><button onclick="minus({{book.id}}, {{book.copies}}, {{book.available}})">-1</button></td>
+            <td><button onclick="plus({{book.id}}, {{book.copies}}, {{book.available}}, 1)">+1</button></td>
+            <td><button onclick="minus({{book.id}}, {{book.copies}}, {{book.available}}, 0)">-1</button></td>
             <td><button onclick="remove({{book.id}})">Remove book</button></td>
         </tr>
   

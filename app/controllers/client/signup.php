@@ -10,18 +10,18 @@ class Signup {
 
     public function post() 
     {
-        $enrolment_number = $_POST["enrolment_number"];
+        $username = $_POST["username"];
         $password1 = $_POST["password1"];
         $password2 = $_POST["password2"];
         if ($password1 == $password2) {
-        $rows = \Model\Post::signup_enrolment_number($enrolment_number, $password1, $password2);
+        $rows = \Model\Post::signup_username($username, $password1, $password2);
           if ($rows) {
             echo "User already exists";
           } else {
-            $rows2 = \Model\Post::signup_password($enrolment_number, $password1, $password2);
+            $rows2 = \Model\Post::signup_password($username, $password1, $password2);
                 if ($rows2){
                     session_start();
-                    $_SESSION["enrolmentNumber"] = $enrolment_number;
+                    $_SESSION["username"] = $username;
                     echo \View\Loader::make()->render("templates/dashboard.twig", array(
                     "books" => \Model\Post::get_books(),
                     ));

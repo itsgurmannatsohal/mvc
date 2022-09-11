@@ -4,28 +4,24 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/assets/styles/style.css" />
+    <link rel="stylesheet" href="/assets/styles/style.css">
     <title>Login</title>
   </head>
   <body>
     <div>
-      <button onclick="window.location='/admin';">Continue as admin</button>
+     
+    <br /><br />
 
-      <br /><br />
+    <form action="/signin" method="post">
 
-      <form action="/signin" method="post">
+      ID: <input type="text" name="username" /> <br> 
+      Password: <input type="password" name="password" /> <br>
 
-        Enrolment Number: <input type="number" name="enrolment_number" /> <br>
-        Password: <input type="password" name="password" /> <br>
+      <input type="submit" value="Log In" />
 
-        <input type="submit" value="Log In" id="login_btn" />
-
-      </form>
-
-      <br /><br />
-
-      <button onclick="window.location='/signin/signup';">Sign Up</button>
-
+    </form>
+  <br /><br />
+  <button onclick="window.location='/signin/signup';">Sign Up</button>
     </div>
   </body>
 </html>

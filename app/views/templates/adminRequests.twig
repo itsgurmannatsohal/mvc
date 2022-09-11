@@ -10,10 +10,10 @@
     <table border="2">
 
     <tr>
-        <th>ID</th>
+     
         <th>Books</th>
         <th>Author</th>
-        <th>Enrolment Number</th>
+        <th>ID</th>
         <th>Request type</th>
         <th>Copies available</th>
         <th></th>
@@ -23,17 +23,17 @@
     {% for request in requests %}
     
     <tr>
-        <td>{{request.id}}</td>
+      
         <td>{{request.name}}</td>
         <td>{{request.author}}</td>
-        <td>{{request.enrolmentNumber}}</td>
+        <td>{{request.username}}</td>
         <td>{{request.req}}</td>
         <td>{{request.available}}</td>
         <td><button 
-            id="accept-btn" onclick="acceptId({{request.id}}, {{request.type}}, {{request.enrolmentNumber}}, {{request.available}})">
+            id="accept-btn" onclick="acceptId({{request.id}}, {{request.type}}, {{request.username}}, {{request.available}}, 1)">
             Accept</button></td>
         <td><button 
-            id="deny-btn" onclick="denyId({{request.id}}, {{request.status}}, {{request.enrolmentNumber}})">
+            id="deny-btn" onclick="denyId({{request.id}}, {{request.status}}, {{request.username}}, 0)">
             Deny</button></td>
     </tr>
     
