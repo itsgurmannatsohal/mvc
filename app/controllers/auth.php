@@ -4,17 +4,7 @@ namespace Utils;
 
 class Auth
 {
-    public static function adminAuth()
-    {
-        session_start();
-        if ($_SESSION["username"]) {
-            return true;
-        } else {
-            header("Location: /signin");
-            die();
-        }
-    }
-    public static function userAuth()
+    public static function auth()
     {
         session_start();
         if ($_SESSION["username"]) {

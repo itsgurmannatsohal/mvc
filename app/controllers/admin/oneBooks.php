@@ -5,7 +5,7 @@ namespace Controller;
 class OneBooks {
     public function post() 
     {
-        \Utils\Auth::adminAuth();
+        \Utils\Auth::auth();
         $_POST = json_decode(file_get_contents("php://input"), true);
         session_start();
         $copies = $_POST["copies"];

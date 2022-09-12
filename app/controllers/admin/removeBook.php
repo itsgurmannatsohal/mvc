@@ -5,7 +5,7 @@ namespace Controller;
 class RemoveBook {
     public function post() 
     {
-        \Utils\Auth::adminAuth();
+        \Utils\Auth::auth();
         $_POST = json_decode(file_get_contents("php://input"), true);
         $book_id = $_POST["book_id"];
         $rows = \Model\AdminPost::remove_book($book_id);

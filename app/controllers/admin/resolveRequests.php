@@ -5,7 +5,7 @@ namespace Controller;
 class ResolveRequests {
     public function post() 
     {
-        \Utils\Auth::adminAuth();
+        \Utils\Auth::auth();
         $_POST = json_decode(file_get_contents("php://input"), true);
         $username = $_POST["username"];
         $available = $_POST["available"];
